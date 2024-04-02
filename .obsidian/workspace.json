@@ -1,0 +1,168 @@
+{
+  "main": {
+    "id": "c2c52a47850b42c2",
+    "type": "split",
+    "children": [
+      {
+        "id": "65ad46d4c07429e0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8059f028493f7385",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Work/Zego/每日工作/24年4月.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c5916a1a512cbc3b",
+    "type": "split",
+    "children": [
+      {
+        "id": "9b84bfbf5b39225f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "eadc080efd497fe6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "7c7fc7042a19f867",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#sql",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a14f7df026bee053",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "2fb1e09c14b4ef15",
+    "type": "split",
+    "children": [
+      {
+        "id": "905ea6f0d3cf56fe",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c3b65aa8d220a76c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Work/Zego/每日工作/24年4月.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "23b7302a8b86e53a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Work/Zego/每日工作/24年4月.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "4cf51768125afe43",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "360faf629116ca86",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Work/Zego/每日工作/24年4月.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false
+    }
+  },
+  "active": "8059f028493f7385",
+  "lastOpenFiles": [
+    "git@github.com:cloudsmiles/mywiki.git",
+    "git@github.com:cloudsmiles",
+    "Work/Zego/每日工作/24年3月.md",
+    "Work/Zego/设计文档",
+    "From zero to/Program Language",
+    "From zero to/Algorithm",
+    "From zero to/Database",
+    "From zero to/Web",
+    "From zero to/Operating System",
+    "From zero to/Network",
+    "未命名",
+    "Remember",
+    "Work/Zego/每日工作/24年4月.md",
+    "Welcome.md"
+  ]
+}

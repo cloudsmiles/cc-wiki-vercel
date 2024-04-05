@@ -4,215 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "131fa48a4702f449",
+        "id": "b0d2a21e85adc31d",
         "type": "tabs",
         "children": [
           {
-            "id": "dfc0b85a1ea356ff",
+            "id": "a36c0c3ce0242bbc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "操作系统/内/Maps/调度算法.md",
+                "file": "后端开发/每日工作/24年4月.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "45ab46e9e122dd27",
+            "id": "03fc717d17f016fc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "操作系统/内/Notes/内存页面置换算法.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "d7f071497a91f646",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/进程管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "46053164c9533bb5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Notes/进程间通信.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "9f1d9470bf3ca46e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/进程管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "c546208fa6854f12",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Notes/锁的机制.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "8d53266d12ca52ba",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Notes/多线程冲突.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ec01004d20c0731b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Notes/竞争与协作.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "b1ac380489d5f91d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Notes/线程.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ebbaa33d6f9542e8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/进程管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "6e88a76260218940",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/外/Maps/进程管理常见问题.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "0dc3e56e4374e344",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/操作系统知识目录.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "e3ebfc5cabfedf0f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/操作系统知识目录.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "298311cb4873b28e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/内存管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "d190c0b46f6b58c3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/外/Maps/内存管理常见问题.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "44245a1ad73f3920",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "操作系统/内/Maps/内存管理.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "e9cf477b87ccd0bd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
+                "file": "操作系统/内/Notes/scp.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 16
+        "stacked": true
       }
     ],
     "direction": "vertical"
@@ -241,7 +61,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#sql",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -262,7 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 319.5
+    "width": 248.5
   },
   "right": {
     "id": "2fb1e09c14b4ef15",
@@ -278,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
+                "file": "后端开发/每日工作/24年4月.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -295,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
+                "file": "后端开发/每日工作/24年4月.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -318,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md"
+                "file": "后端开发/每日工作/24年4月.md"
               }
             }
           }
@@ -340,53 +160,53 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "e9cf477b87ccd0bd",
+  "active": "a36c0c3ce0242bbc",
   "lastOpenFiles": [
-    "操作系统/内/Notes/内存映射文件.md",
-    "操作系统/内/Maps/内存管理.md",
-    "操作系统/外/Maps/内存管理常见问题.md",
+    "操作系统/内/Maps/A_Linux命令目录.md",
+    "操作系统/内/Maps/A_操作系统知识目录.md",
+    "操作系统/内/Maps/磁盘管理命令.md",
     "操作系统/外/Notes/申请内存过大.md",
-    "RPG从零开始/Web.md",
-    "虚拟.md",
-    "操作系统/内/attachments/malloc分配内存.png",
-    "操作系统/内/Maps/操作系统知识目录.md",
-    "操作系统/内/Notes/malloc分配内存.md",
-    "操作系统/内/Notes/内存回收.md",
-    "操作系统/内/Notes/虚拟内存.md",
-    "操作系统/内/Notes/Linux内存布局.md",
-    "操作系统/内/Notes/内存分页.md",
-    "操作系统/内/Notes/内存分段.md",
-    "操作系统/内/attachments/内存分页1.png",
-    "操作系统/内/attachments/内存分页4.png",
-    "操作系统/内/attachments/内存分页3.png",
-    "操作系统/内/attachments/内存分页2.png",
-    "操作系统/内/attachments/linux内存布局.png",
-    "操作系统/内/Maps/调度算法.md",
-    "操作系统/内/attachments/内存分段.png",
-    "操作系统/内/attachments/段页式管理.png",
-    "操作系统/内/Notes/段页式内存管理.md",
-    "操作系统/内/attachments/虚拟地址映射.png",
-    "操作系统/内/Maps/设备管理.md",
-    "操作系统/内/attachments/虚拟内存提纲.png",
-    "Untitled.png.md",
-    "操作系统/内/Notes/什么是内存管理.md",
+    "RPG从零开始/Operation System/linux命令/磁盘管理/df(disk full).md",
+    "RPG从零开始/Operation System/linux命令/磁盘管理/cd(change directory).md",
+    "RPG从零开始/Operation System/linux命令/磁盘管理.md",
+    "操作系统/内/Notes/known_hosts文件.md",
+    "操作系统/外/Notes/ssh登陆报错.md",
+    "操作系统/内/Notes/ssh.md",
+    "操作系统/外/Notes/一个进程最多可以创建多少个线程.md",
+    "操作系统/外/Notes/线程崩溃了，进程也会崩溃吗.md",
+    "操作系统/内/Maps/网络通讯命令.md",
+    "RPG从零开始/Operation System/linux命令/文件传输.md",
+    "scp(secure [[copy).md",
+    "操作系统/内/Maps/系统管理命令.md",
+    "操作系统/内/Maps/硬件结构.md",
+    "操作系统/内/Maps/文件系统.md",
+    "操作系统/内/Maps/文件管理命令.md",
+    "操作系统/内/Maps/文件传输命令.md",
+    "操作系统/内/Notes/scp.md",
+    "RPG从零开始/Operation System/linux命令/文件管理.md",
+    "RPG从零开始/Operation System/linux命令/备份压缩.md",
+    "RPG从零开始/Operation System/linux命令/text-fu.md",
+    "操作系统/内/Maps/文本处理命令.md",
     "操作系统/内/Maps/进程管理.md",
-    "操作系统/内/attachments/Untitled.png.md",
-    "操作系统/外/attachments",
-    "操作系统/内/Notes/内存页面置换算法.md",
-    "操作系统/内/Notes/锁的机制.md",
-    "操作系统/内/Notes/竞争与协作.md",
-    "操作系统/内/Notes/经典同步问题.md",
-    "操作系统/内/Notes/进程间通信.md",
-    "操作系统/内/Notes/进程调度算法.md",
-    "操作系统",
-    "操作系统/内/Notes",
-    "操作系统/外/Notes",
-    "操作系统/内/attachments",
-    "操作系统/外/Maps",
-    "RPG从零开始/内/Maps/操作系统知识目录",
-    "操作系统/内/Maps",
-    "操作系统/外",
-    "操作系统/内"
+    "操作系统/内/attachments/设备驱动程序.png",
+    "操作系统/内/attachments/IO分层.png",
+    "Work/Zego/每日工作",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/规则说明/Untitled.png",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/保单详情页/Untitled.png",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/保单卡页/Untitled.png",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/规则说明",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/保单详情页",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database/保单卡页",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database.csv",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块/Untitled Database",
+    "过往工作/wesure/车险工作迭代/技术迭代/车险报价单卡片模块",
+    "过往工作/wesure/终端平台工作/重构工作/wcm重构.xmind.xmind",
+    "过往工作/wesure/架构设计/mesher/Untitled.png",
+    "过往工作/wesure/架构设计/mesher/Untitled 1.png",
+    "过往工作/wesure/架构设计/ddd/Untitled.png",
+    "过往工作/wesure/常用系统/wof/Untitled.png",
+    "过往工作/wesure/常用系统/wof/Untitled 1.png",
+    "过往工作/wesure/车险工作迭代/技术迭代.csv",
+    "过往工作/wesure/车险工作迭代/技术迭代"
   ]
 }

@@ -1,3 +1,0 @@
-# ssh
-
-[[  ssh登陆报错“IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!“问题原因及解决方法  ]]

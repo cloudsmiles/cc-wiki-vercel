@@ -8,9 +8,9 @@
 
 迁移app到不同sid
 
-![Untitled](后端开发/工作/Design/app迁移不同sid%20技术方案/Untitled.png)
+![Untitled](后端开发/Design/app迁移不同sid%20技术方案/Untitled.png)
 
-![Untitled](后端开发/工作/Design/app迁移不同sid%20技术方案/Untitled%201.png)
+![Untitled](后端开发/Design/app迁移不同sid%20技术方案/Untitled%201.png)
 
 ## 接口设计
 

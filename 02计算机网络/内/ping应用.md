@@ -1,7 +1,7 @@
-# ping应用
-
-Owner: cloudsmiles
-Last edited time: May 1, 2023 5:42 PM
+---
+up:
+  - "[[00计算机网络知识目录]]"
+---
 
 断网的时候，在控制台输入ping 127.0.0.1
 

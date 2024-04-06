@@ -1,7 +1,8 @@
-# vpn和代理服务
+---
+up:
+  - "[[00计算机网络知识目录]]"
+---
 
-Owner: cloudsmiles
-Last edited time: April 24, 2023 8:52 PM
 
 vpn和代理服务的区别
 

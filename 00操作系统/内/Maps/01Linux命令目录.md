@@ -12,6 +12,17 @@ up:
 - [[chown&chgrp]]
 
 ## 磁盘管理
+- [[df(disk full)]]
+- [[dirs(directory stack)]]
+- [[du(disk usage)]]
+- [[ls(list)]]
+- [[stat]]
+- [[tree]]
+- [[mount]]
+- [[umount]]
+- [[cd(change directory)]]
+- [[mkdir(make directory)]]
+- [[rmdir(remove directory)]]
 
 ## 系统管理
 

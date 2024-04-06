@@ -8,24 +8,48 @@
         "type": "tabs",
         "children": [
           {
-            "id": "a36c0c3ce0242bbc",
+            "id": "9236edfa8e445e66",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01架构设计/内/Maps/设计模式.md",
+                "file": "00操作系统/内/umount.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "fd35469551c8cd25",
+            "id": "446e792ea02dd6f3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02计算机网络/外/Notes/TCP 和 UDP 的区别.md",
+                "file": "RPG从零开始/Operation System/linux命令.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3e26789482f1ec0c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00操作系统/内/Maps/文件系统.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "a36c0c3ce0242bbc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "00操作系统/内/Maps/文件系统.md",
                 "mode": "source",
                 "source": false
               }
@@ -62,7 +86,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "中断",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -99,9 +123,9 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02计算机网络/外/Notes/TCP 和 UDP 的区别.md",
+                "file": "RPG从零开始/Operation System/linux命令.md",
                 "collapseAll": false,
-                "extraContext": false,
+                "extraContext": true,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -116,7 +140,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02计算机网络/外/Notes/TCP 和 UDP 的区别.md",
+                "file": "RPG从零开始/Operation System/linux命令.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,7 +163,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02计算机网络/外/Notes/TCP 和 UDP 的区别.md"
+                "file": "RPG从零开始/Operation System/linux命令.md"
               }
             }
           }
@@ -161,53 +185,53 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "eadc080efd497fe6",
+  "active": "446e792ea02dd6f3",
   "lastOpenFiles": [
-    "02计算机网络/内/ping应用.md",
-    "02计算机网络/网络层/IP.md",
-    "02计算机网络/内/Maps/00计算机网络知识目录.md",
-    "02计算机网络/内/基本概念.md",
-    "02计算机网络/内/TCP重传机制.md",
-    "RPG从零开始/Web.md",
-    "02计算机网络/传输层/TCP.md",
-    "02计算机网络/内/vpn和代理服务.md",
-    "01架构设计/内/Maps/00架构设计总目录.md",
-    "01架构设计/内/Maps/设计模式.md",
     "00操作系统/内/Maps/01Linux命令目录.md",
-    "00操作系统/内/Maps/00操作系统知识目录.md",
-    "00操作系统/内/Maps/调度算法.md",
-    "00操作系统/内/Maps/进程管理.md",
-    "00操作系统/内/Maps/内存管理.md",
-    "00操作系统/内/Maps/设备管理.md",
-    "00操作系统/内/Maps/网络系统.md",
-    "00操作系统/内/Maps/文件系统.md",
+    "RPG从零开始/Operation System/linux命令/磁盘管理.md",
+    "00操作系统/内/rmdir(remove directory).md",
+    "00操作系统/内/mkdir(make directory).md",
+    "00操作系统/内/cd(change directory).md",
+    "00操作系统/内/umount.md",
+    "00操作系统/内/mount.md",
+    "00操作系统/内/tree.md",
+    "00操作系统/内/stat.md",
+    "00操作系统/内/ls(list).md",
+    "00操作系统/内/du(disk usage).md",
+    "00操作系统/内/dirs(directory stack).md",
+    "00操作系统/内/df(disk full).md",
     "00操作系统/内/Maps/硬件结构.md",
-    "00操作系统/内/Maps/网络通讯命令.md",
-    "00操作系统/内/ssh.md",
+    "RPG从零开始/Operation System/linux命令.md",
+    "00操作系统/内/文件I O.md",
+    "00操作系统/内/socket模型.md",
+    "00操作系统/内/socket.md",
     "00操作系统/内/scp.md",
-    "00操作系统/内/Maps/系统管理命令.md",
-    "00操作系统/内/chmod.md",
-    "00操作系统/内/Maps/文件管理命令.md",
-    "00操作系统/内/chown&chgrp.md",
+    "00操作系统/内/pwd(print work directory).md",
+    "00操作系统/内/MMU和TLB.md",
+    "00操作系统/内/malloc分配内存.md",
+    "00操作系统/内/Linux内存布局.md",
+    "00操作系统/内/IO控制方式.md",
+    "00操作系统/内/known_hosts文件.md",
+    "00操作系统/内/I O映射.md",
+    "00操作系统/内/attachments/MMU.png",
+    "00操作系统/内/attachments/中断提纲.png",
+    "00操作系统/内/attachments/设备控制器.png",
+    "00操作系统/内/attachments/主存储器.png",
+    "00操作系统/内/attachments/软中断2.png",
+    "00操作系统/内/attachments/软中断.png",
+    "00操作系统/内/attachments/Pasted image 20240406004742.png",
+    "RPG从零开始/Operation System/文件系统/虚拟文件系统/attachments/Pasted image 20240406004651.png",
+    "RPG从零开始/Operation System/文件系统/虚拟文件系统/attachments",
+    "00操作系统/内/attachments/虚拟文件系统.png",
+    "00操作系统/内/attachments/文件存储2.png",
+    "02计算机网络/外/Notes/attachments",
+    "02计算机网络/内/attachments",
     "02计算机网络/外/Notes",
     "02计算机网络/外/Maps",
     "02计算机网络/内/未命名",
     "02计算机网络/内/Maps",
     "02计算机网络/外",
     "02计算机网络/内",
-    "02计算机网络",
-    "01架构设计/内/attachments/代理模式1.png",
-    "01架构设计/内/attachments/装饰器模式1.png",
-    "01架构设计/内/attachments/适配器模式1.png",
-    "01架构设计/内/attachments/桥接模式1.png",
-    "01架构设计/内/attachments/代理模式2.png",
-    "01架构设计/内/attachments/组合模式1.png",
-    "01架构设计/内/attachments/组合模式2.png",
-    "01架构设计/内/attachments/装饰器模式2.png",
-    "01架构设计/内/attachments/适配器模式2.png",
-    "01架构设计/内/attachments/桥接模式3.png",
-    "01架构设计/内/attachments",
-    "01架构设计/内/Maps",
-    "01架构设计/外/Notes"
+    "02计算机网络"
   ]
 }

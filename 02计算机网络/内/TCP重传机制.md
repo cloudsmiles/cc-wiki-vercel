@@ -1,16 +1,15 @@
 ---
 up:
   - "[[TCP]]"
+reference: https://mp.weixin.qq.com/s/-t6fS_Hif9jDPsuMlWWeyQ
 ---
-
 
 ### **超时重传**
 
 TCP 为了实现可靠传输，实现了重传机制。最基本的重传机制，就是**超时重传**，即在发送数据报文时，设定一个定时器，每间隔一段时间，没有收到对方的ACK确认应答报文，就会重发该报文。
 
 这个间隔时间，一般设置为多少呢？我们先来看下什么叫**RTT（Round-Trip Time，往返时间）**。
-
-[https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGQeePs2NCSbIdvl997a7mWGHUWic5kGghXVFpRNPwYtOggZytGywNMaw/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1](https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGQeePs2NCSbIdvl997a7mWGHUWic5kGghXVFpRNPwYtOggZytGywNMaw/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1)
+![[Pasted image 20240405230305.png]]
 
 RTT就是，一个数据包从发出去到回来的时间，即**数据包的一次往返时间**。超时重传时间，就是Retransmission Timeout ，简称**RTO**。
 
@@ -61,8 +60,8 @@ RTO = µ * SRTT + ∂ * RTTVAR  =  SRTT + 4·RTTVAR
 **快速重传**机制，它不以时间驱动，而是以数据驱动。它基于接收端的反馈信息来引发重传。
 
 一起来看下快速重传流程：
+![[Pasted image 20240405230330.png]]
 
-[https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGu7I5I3EJZTdlJMGMxibIkYquScTY5XibRicykIrEHAp7qBag50qH7I4UA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1](https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGu7I5I3EJZTdlJMGMxibIkYquScTY5XibRicykIrEHAp7qBag50qH7I4UA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1)
 
 快速重传流程
 
@@ -91,8 +90,7 @@ RTO = µ * SRTT + ∂ * RTTVAR  =  SRTT + 4·RTTVAR
 为了解决快速重传的问题：**应该重传多少个包**? TCP提供了**SACK方法**（带选择确认的重传，Selective Acknowledgment）。
 
 **SACK机制**就是，在快速重传的基础上，接收端返回最近收到的报文段的序列号范围，这样发送端就知道接收端哪些数据包没收到，酱紫就很清楚该重传哪些数据包啦。SACK标记是加在TCP头部**选项**字段里面的。
-
-[https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGtnwicDafN34ibW12dBjvVgUdnEnDibWKkLBiafdjHnr0UNzZKIIMDoVsLA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1](https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGtnwicDafN34ibW12dBjvVgUdnEnDibWKkLBiafdjHnr0UNzZKIIMDoVsLA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1)
+![[Pasted image 20240405230342.png]]
 
 SACK机制
 
@@ -101,11 +99,6 @@ SACK机制
 ### **D-SACK**
 
 D-SACK，即Duplicate SACK（重复SACK），在SACK的基础上做了一些扩展，，主要用来告诉发送方，有哪些数据包自己重复接受了。DSACK的目的是帮助发送方判断，是否发生了包失序、ACK丢失、包重复或伪重传。让TCP可以更好的做网络流控。来看个图吧：
-
-[https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGRtETx7uS0rZNAIqvXqYLECxCEfyVPHamAJns9OBWXKO541eJau81pA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1](https://mmbiz.qpic.cn/mmbiz_png/PoF8jo1PmpwwTDZWIWFC9LakSgxrYMZGRtETx7uS0rZNAIqvXqYLECxCEfyVPHamAJns9OBWXKO541eJau81pA/640?wx_fmt=png&tp=wxpic&wxfrom=5&wx_lazy=1&wx_co=1)
+![[Pasted image 20240405230400.png]]
 
 D-SACK简要流程
-
-reference
-
-[https://mp.weixin.qq.com/s/-t6fS_Hif9jDPsuMlWWeyQ](https://mp.weixin.qq.com/s/-t6fS_Hif9jDPsuMlWWeyQ)

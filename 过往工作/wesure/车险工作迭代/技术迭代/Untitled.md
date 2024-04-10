@@ -1,3 +1,0 @@
-# Untitled
-
-Status: Completed

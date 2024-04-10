@@ -8,55 +8,14 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9236edfa8e445e66",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00操作系统/内/umount.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "446e792ea02dd6f3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "3e26789482f1ec0c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00操作系统/内/Maps/文件系统.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "a36c0c3ce0242bbc",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00操作系统/内/Maps/文件系统.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ],
-        "currentTab": 1,
         "stacked": true
       }
     ],
@@ -86,7 +45,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "中断",
+                "query": "tag:#ARG",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -123,9 +82,8 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
                 "collapseAll": false,
-                "extraContext": true,
+                "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -140,7 +98,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,17 +119,14 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "RPG从零开始/Operation System/linux命令.md"
-              }
+              "state": {}
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,53 +139,53 @@
       "obsidian-excalidraw-plugin:新建绘图文件": false
     }
   },
-  "active": "446e792ea02dd6f3",
+  "active": "a36c0c3ce0242bbc",
   "lastOpenFiles": [
-    "00操作系统/内/Maps/01Linux命令目录.md",
-    "RPG从零开始/Operation System/linux命令/磁盘管理.md",
-    "00操作系统/内/rmdir(remove directory).md",
-    "00操作系统/内/mkdir(make directory).md",
-    "00操作系统/内/cd(change directory).md",
-    "00操作系统/内/umount.md",
-    "00操作系统/内/mount.md",
-    "00操作系统/内/tree.md",
-    "00操作系统/内/stat.md",
-    "00操作系统/内/ls(list).md",
-    "00操作系统/内/du(disk usage).md",
-    "00操作系统/内/dirs(directory stack).md",
-    "00操作系统/内/df(disk full).md",
-    "00操作系统/内/Maps/硬件结构.md",
+    "游戏人生/Remember123/arc账号.md",
+    "游戏人生/Remember123/chatgpt账号.md",
+    "游戏人生/Remember123/steam账号.md",
+    "游戏人生/Remember123/163邮箱.md",
+    "游戏人生/Pkms Mini App.md",
+    "游戏人生/Switch.md",
+    "过往工作/zego/每日工作/24年3月.md",
+    "过往工作/zego/每日工作/24年4月.md",
+    "RPG从零开始/Operation System/linux命令/text-fu.md",
+    "未命名",
+    "05语言设计",
     "RPG从零开始/Operation System/linux命令.md",
-    "00操作系统/内/文件I O.md",
-    "00操作系统/内/socket模型.md",
-    "00操作系统/内/socket.md",
-    "00操作系统/内/scp.md",
-    "00操作系统/内/pwd(print work directory).md",
-    "00操作系统/内/MMU和TLB.md",
-    "00操作系统/内/malloc分配内存.md",
-    "00操作系统/内/Linux内存布局.md",
-    "00操作系统/内/IO控制方式.md",
-    "00操作系统/内/known_hosts文件.md",
-    "00操作系统/内/I O映射.md",
-    "00操作系统/内/attachments/MMU.png",
-    "00操作系统/内/attachments/中断提纲.png",
-    "00操作系统/内/attachments/设备控制器.png",
-    "00操作系统/内/attachments/主存储器.png",
+    "01架构设计/内/Maps/00架构设计总目录.md",
+    "04数据库系统",
+    "03算法设计",
+    "过往工作/wesure/架构学习/BST创想中心.md",
+    "00操作系统/外/线程崩溃了，进程也会崩溃吗.md",
+    "02计算机网络/内/TCP基本概念.md",
+    "01架构设计/内/Maps/设计模式.md",
+    "02计算机网络/外/Notes/attachments/Pasted image 20240405230757.png",
+    "02计算机网络/外/Notes/attachments",
+    "02计算机网络/内/attachments/Pasted image 20240405230400.png",
+    "02计算机网络/内/attachments/Pasted image 20240405230342.png",
+    "02计算机网络/内/attachments/Pasted image 20240405230330.png",
+    "02计算机网络/内/attachments/Pasted image 20240405230305.png",
+    "02计算机网络/内/attachments",
+    "02计算机网络/内/Maps/TCP.md",
+    "00操作系统/内/高性能网络模式：Reactor 和 Proactor.md",
+    "00操作系统/内/页缓存和缓冲区.md",
+    "00操作系统/内/页缓存.md",
+    "00操作系统/内/软链和硬链.md",
+    "00操作系统/内/设备控制器.md",
+    "00操作系统/内/虚拟文件系统.md",
+    "00操作系统/内/端口，TCP连接，文件描述符三者的关系.md",
+    "00操作系统/内/空闲空间管理.md",
+    "00操作系统/内/目录的存储.md",
+    "00操作系统/内/文件系统结构.md",
+    "00操作系统/内/attachments/高性能网络模式3.png",
+    "00操作系统/内/attachments/高性能网络模式2.png",
+    "00操作系统/内/attachments/高性能网络模式1.png",
     "00操作系统/内/attachments/软中断2.png",
     "00操作系统/内/attachments/软中断.png",
-    "00操作系统/内/attachments/Pasted image 20240406004742.png",
-    "RPG从零开始/Operation System/文件系统/虚拟文件系统/attachments/Pasted image 20240406004651.png",
-    "RPG从零开始/Operation System/文件系统/虚拟文件系统/attachments",
-    "00操作系统/内/attachments/虚拟文件系统.png",
-    "00操作系统/内/attachments/文件存储2.png",
-    "02计算机网络/外/Notes/attachments",
-    "02计算机网络/内/attachments",
     "02计算机网络/外/Notes",
     "02计算机网络/外/Maps",
     "02计算机网络/内/未命名",
-    "02计算机网络/内/Maps",
-    "02计算机网络/外",
-    "02计算机网络/内",
-    "02计算机网络"
+    "02计算机网络/内/Maps"
   ]
 }

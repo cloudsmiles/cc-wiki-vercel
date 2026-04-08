@@ -1,0 +1,8 @@
+.obsidian
+.claude
+.claudian
+*.pyc
+.DS_Store
+node_modules
+public
+_quartz

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>select</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="🎮 技术知识库"/><meta property="og:title" content="select"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="select"/><meta name="twitter:description" content="select select 是操作系统中的系统调用，我们经常会使用 select、poll 和 epoll 等函数构建 I/O 多路复用模型提升程序的性能。Go 语言的 select 与操作系统中的 select 比较相似，本节会介绍 Go 语言 select 关键字常见的现象、数据结构以及实现原理。 C 语言的 select 系统调用可以同时监听多个文件描述符的可读或者可写的状态，Go 语言中的 select 也能够让 Goroutine 同时等待多个 Channel 可读或者可写，在多个文件或者 Channel状态改变之前，select 会一直阻塞当前线程或者 Goroutine。 sel..."/><meta property="og:description" content="select select 是操作系统中的系统调用，我们经常会使用 select、poll 和 epoll 等函数构建 I/O 多路复用模型提升程序的性能。Go 语言的 select 与操作系统中的 select 比较相似，本节会介绍 Go 语言 select 关键字常见的现象、数据结构以及实现原理。 C 语言的 select 系统调用可以同时监听多个文件描述符的可读或者可写的状态，Go 语言中的 select 也能够让 Goroutine 同时等待多个 Channel 可读或者可写，在多个文件或者 Channel状态改变之前，select 会一直阻塞当前线程或者 Goroutine。 sel..."/><meta property="og:image:alt" content="select select 是操作系统中的系统调用，我们经常会使用 select、poll 和 epoll 等函数构建 I/O 多路复用模型提升程序的性能。Go 语言的 select 与操作系统中的 select 比较相似，本节会介绍 Go 语言 select 关键字常见的现象、数据结构以及实现原理。 C 语言的 select 系统调用可以同时监听多个文件描述符的可读或者可写的状态，Go 语言中的 select 也能够让 Goroutine 同时等待多个 Channel 可读或者可写，在多个文件或者 Channel状态改变之前，select 会一直阻塞当前线程或者 Goroutine。 sel..."/><meta property="twitter:domain" content="quartz.jzhao.xyz"/><meta property="og:url" content="https://quartz.jzhao.xyz/编程语言/Go/高级/常用关键字/select"/><meta property="twitter:url" content="https://quartz.jzhao.xyz/编程语言/Go/高级/常用关键字/select"/><link rel="icon" href="../../../../static/icon.png"/><meta name="description" content="select select 是操作系统中的系统调用，我们经常会使用 select、poll 和 epoll 等函数构建 I/O 多路复用模型提升程序的性能。Go 语言的 select 与操作系统中的 select 比较相似，本节会介绍 Go 语言 select 关键字常见的现象、数据结构以及实现原理。 C 语言的 select 系统调用可以同时监听多个文件描述符的可读或者可写的状态，Go 语言中的 select 也能够让 Goroutine 同时等待多个 Channel 可读或者可写，在多个文件或者 Channel状态改变之前，select 会一直阻塞当前线程或者 Goroutine。 sel..."/><meta name="generator" content="Quartz"/><link href="../../../../index.css" rel="stylesheet" type="text/css" data-persist="true"/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1lcm1haWQuaW5saW5lLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUdGO0VBQ0U7OztBQUtGO0VBQ0U7RUFDQTs7O0FBSUo7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBOztBQUVBO0VBQ0U7O0FBR0Y7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICAgIHRyYW5zZm9ybS1vcmlnaW46IDAgMDtcbiAgICAgIHRyYW5zaXRpb246IHRyYW5zZm9ybSAwLjFzIGVhc2U7XG4gICAgICBvdmVyZmxvdzogdmlzaWJsZTtcbiAgICAgIG1pbi1oZWlnaHQ6IDIwMHB4O1xuICAgICAgbWluLXdpZHRoOiAyMDBweDtcblxuICAgICAgcHJlIHtcbiAgICAgICAgbWFyZ2luOiAwO1xuICAgICAgICBib3JkZXI6IG5vbmU7XG4gICAgICB9XG5cbiAgICAgIHN2ZyB7XG4gICAgICAgIG1heC13aWR0aDogbm9uZTtcbiAgICAgICAgaGVpZ2h0OiBhdXRvO1xuICAgICAgfVxuICAgIH1cblxuICAgICYgPiAubWVybWFpZC1jb250cm9scyB7XG4gICAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgICBib3R0b206IDIwcHg7XG4gICAgICByaWdodDogMjBweDtcbiAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICBnYXA6IDhweDtcbiAgICAgIHBhZGRpbmc6IDhweDtcbiAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICBib3JkZXItcmFkaXVzOiA2cHg7XG4gICAgICBib3gtc2hhZG93OiAwIDJweCA0cHggcmdiYSgwLCAwLCAwLCAwLjEpO1xuICAgICAgei1pbmRleDogMjtcblxuICAgICAgLm1lcm1haWQtY29udHJvbC1idXR0b24ge1xuICAgICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICAgICAgd2lkdGg6IDMycHg7XG4gICAgICAgIGhlaWdodDogMzJweDtcbiAgICAgICAgcGFkZGluZzogMDtcbiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tbGlnaHRncmF5KTtcbiAgICAgICAgYmFja2dyb3VuZDogdmFyKC0tbGlnaHQpO1xuICAgICAgICBjb2xvcjogdmFyKC0tZGFyayk7XG4gICAgICAgIGJvcmRlci1yYWRpdXM6IDRweDtcbiAgICAgICAgY3Vyc29yOiBwb2ludGVyO1xuICAgICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICAgIGZvbnQtZmFtaWx5OiB2YXIoLS1ib2R5Rm9udCk7XG4gICAgICAgIHRyYW5zaXRpb246IGFsbCAwLjJzIGVhc2U7XG5cbiAgICAgICAgJjpob3ZlciB7XG4gICAgICAgICAgYmFja2dyb3VuZDogdmFyKC0tbGlnaHRncmF5KTtcbiAgICAgICAgfVxuXG4gICAgICAgICY6YWN0aXZlIHtcbiAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVkoMXB4KTtcbiAgICAgICAgfVxuXG4gICAgICAgIC8vIFN0eWxlIHRoZSByZXNldCBidXR0b24gZGlmZmVyZW50bHlcbiAgICAgICAgJjpudGgtY2hpbGQoMikge1xuICAgICAgICAgIHdpZHRoOiBhdXRvO1xuICAgICAgICAgIHBhZGRpbmc6IDAgMTJweDtcbiAgICAgICAgICBmb250LXNpemU6IDE0cHg7XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICB9XG4gIH1cbn1cbiJdfQ== */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" data-persist="true"/><script src="../../../../prescript.js" type="application/javascript" data-persist="true"></script><script type="application/javascript" data-persist="true">const fetchData = fetch("../../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://quartz.jzhao.xyz/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://quartz.jzhao.xyz/编程语言/Go/高级/常用关键字/select-og-image.webp"/><meta property="og:image:url" content="https://quartz.jzhao.xyz/编程语言/Go/高级/常用关键字/select-og-image.webp"/><meta name="twitter:image" content="https://quartz.jzhao.xyz/编程语言/Go/高级/常用关键字/select-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="编程语言/Go/高级/常用关键字/select"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../../..">🎮 技术知识库</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-401"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-401" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../编程语言/">编程语言</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../编程语言/Go/">Go</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../编程语言/Go/高级/">高级</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../编程语言/Go/高级/常用关键字/">常用关键字</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>select</a></div></nav><h1 class="article-title">select</h1><p show-comma="true" class="content-meta"><time datetime="2026-04-08T08:07:32.000Z">Apr 08, 2026</time><span>15 min read</span></p></div></div><article class="popover-hint"><h1 id="select">select<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#select" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><code>select</code> 是操作系统中的系统调用，我们经常会使用 <code>select</code>、<code>poll</code> 和 <code>epoll</code> 等函数构建 I/O 多路复用模型提升程序的性能。Go 语言的 <code>select</code> 与操作系统中的 <code>select</code> 比较相似，本节会介绍 Go 语言 <code>select</code> 关键字常见的现象、数据结构以及实现原理。</p>
+<p>C 语言的 <code>select</code> 系统调用可以同时监听多个文件描述符的可读或者可写的状态，Go 语言中的 <code>select</code> 也能够让 Goroutine 同时等待多个 Channel 可读或者可写，在多个文件或者 Channel状态改变之前，<code>select</code> 会一直阻塞当前线程或者 Goroutine。</p>
+<p>select与switch类似，但是与switch不同，select的case表达式必须都是channel的收发操作</p>
+<h2 id="现象">现象<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#现象" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>当我们在 Go 语言中使用 <code>select</code> 控制结构时，会遇到两个有趣的现象：</p>
+<ol>
+<li><code>select</code> 能在 Channel 上进行非阻塞的收发操作；</li>
+<li><code>select</code> 在遇到多个 Channel 同时响应时，会随机执行一种情况；</li>
+</ol>
+<h2 id="数据结构">数据结构<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#数据结构" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><code>select</code>在 Go 语言的源代码中不存在对应的结构体，但是我们使用 <code>[runtime.scase](https://draveness.me/golang/tree/runtime.scase)</code> 结构体表示 <code>select</code>控制结构中的 <code>case</code>：</p>
+<pre><code>type scase struct {
+	c    *hchan         // chan
+	elem unsafe.Pointer // data element
+}
+</code></pre>
+<p>因为非默认的 <code>case</code>中都与 Channel 的发送和接收有关，所以 <code>[runtime.scase](https://draveness.me/golang/tree/runtime.scase)</code>结构体中也包含一个 <code>[runtime.hchan](https://draveness.me/golang/tree/runtime.hchan)</code> 类型的字段存储 <code>case</code>中使用的 Channel。</p>
+<h2 id="实现原理">实现原理<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#实现原理" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><code>select</code>语句在编译期间会被转换成 <code>OSELECT</code>节点。每个 <code>OSELECT</code> 节点都会持有一组 <code>OCASE</code>
+ 节点，如果 <code>OCASE</code>的执行条件是空，那就意味着这是一个 <code>default</code>节点。</p>
+<p><img src="../../../../RPG从零开始/Program-Language/Go/高级/常用关键字/select/Untitled.png" alt="Untitled"/></p>
+<p>上图展示的就是 <code>select</code>语句在编译期间的结构，每一个 <code>OCASE</code>既包含执行条件也包含满足条件后执行的代码。</p>
+<p>编译器在中间代码生成期间会根据 <code>select</code> 中 <code>case</code> 的不同对控制语句进行优化，这一过程都发生在 <code>[cmd/compile/internal/gc.walkselectcases](https://draveness.me/golang/tree/cmd/compile/internal/gc.walkselectcases)</code> 函数中，我们在这里会分四种情况介绍处理的过程和结果：</p>
+<ol>
+<li><code>select</code> 不存在任何的 <code>case</code>；</li>
+<li><code>select</code> 只存在一个 <code>case</code>；</li>
+<li><code>select</code> 存在两个 <code>case</code>，其中一个 <code>case</code> 是 <code>default</code>；</li>
+<li><code>select</code> 存在多个 <code>case</code>；</li>
+</ol>
+<h3 id="直接阻塞">直接阻塞<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#直接阻塞" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>当select不存在任何case时，在代码中的流程是：</p>
+<pre><code>func walkselectcases(cases *Nodes) []*Node {
+	n := cases.Len()
+
+	if n == 0 {
+		return []*Node{mkcall(&quot;block&quot;, nil, nil)}
+	}
+	...
+}
+</code></pre>
+<p>以上代码将类似 <code>select {}</code>的语句转换成调用 <code>[runtime.block](https://draveness.me/golang/tree/runtime.block)</code>函数，会直接阻塞当前Goroutine，导致无法被唤醒状态</p>
+<h3 id="单一管道">单一管道<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#单一管道" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>如果当前的 <code>select</code>条件只包含一个 <code>case</code>，那么编译器会将 <code>select</code> 改写成 <code>if</code>条件语句。下面对比了改写前后的代码：</p>
+<pre><code>// 改写前
+select {
+case v, ok &lt;-ch: // case ch &lt;- v
+    ...
+}
+
+// 改写后
+if ch == nil {
+    block()
+}
+v, ok := &lt;-ch // case ch &lt;- v
+...
+</code></pre>
+<p><code>[cmd/compile/internal/gc.walkselectcases](https://draveness.me/golang/tree/cmd/compile/internal/gc.walkselectcases)</code>在处理单操作 <code>select</code>语句时，会根据 Channel 的收发情况生成不同的语句。当 <code>case</code>中的 Channel 是空指针时，会直接挂起当前 Goroutine 并陷入永久休眠。</p>
+<h3 id="非阻塞操作">非阻塞操作<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#非阻塞操作" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>当 <code>select</code>中仅包含两个 <code>case</code>，并且其中一个是 <code>default</code>时，Go 语言的编译器就会认为这是一次非阻塞的收发操作。<code>[cmd/compile/internal/gc.walkselectcases](https://draveness.me/golang/tree/cmd/compile/internal/gc.walkselectcases)</code> 会对这种情况单独处理。</p>
+<p>不过在正式优化之前，该函数会将 <code>case</code>中的所有 Channel 都转换成指向 Channel 的地址，我们会分别介绍非阻塞发送和非阻塞接收时，编译器进行的不同优化。</p>
+<p><strong>发送</strong></p>
+<p>首先是 Channel 的发送过程，当 <code>case</code>中表达式的类型是 <code>OSEND</code>时，编译器会使用条件语句和 <code>[runtime.selectnbsend](https://draveness.me/golang/tree/runtime.selectnbsend)</code>函数改写代码：</p>
+<pre><code>select {
+case ch &lt;- i:
+    ...
+default:
+    ...
+}
+
+if selectnbsend(ch, i) {
+    ... // return chansend(c, elem, false, getcallerpc())
+} else {
+    ...
+}
+</code></pre>
+<p>这段代码中最重要的就是 <code>[runtime.selectnbsend](https://draveness.me/golang/tree/runtime.selectnbsend)</code>，它为我们提供了向 Channel 非阻塞地发送数据的能力。由于我们向 <code>[runtime.chansend](https://draveness.me/golang/tree/runtime.chansend)</code>函数传入了非阻塞，所以在不存在接收方或者缓冲区空间不足时，当前 Goroutine 都不会阻塞而是会直接返回。</p>
+<p><strong>接收</strong></p>
+<p>由于从 Channel 中接收数据可能会返回一个或者两个值，所以接收数据的情况会比发送稍显复杂，不过改写的套路是差不多的：</p>
+<pre><code>// 改写前
+select {
+case v &lt;- ch: // case v, ok &lt;- ch:
+    ......
+default:
+    ......
+}
+
+// 改写后
+if selectnbrecv(&amp;v, ch) { // if selectnbrecv2(&amp;v, &amp;ok, ch) {
+    ... // selected, _ = chanrecv(c, elem, false)
+			  // selected, *received = chanrecv(c, elem, false)
+} else {
+    ...
+}
+</code></pre>
+<p>返回值数量不同会导致使用函数的不同，两个用于非阻塞接收消息的函数 <code>[runtime.selectnbrecv](https://draveness.me/golang/tree/runtime.selectnbrecv)</code>
+ 和 <code>[runtime.selectnbrecv2](https://draveness.me/golang/tree/runtime.selectnbrecv2)</code> 只是对 <code>[runtime.chanrecv](https://draveness.me/golang/tree/runtime.chanrecv)</code>返回值的处理稍有不同与 <code>[runtime.chansend](https://draveness.me/golang/tree/runtime.chansend)</code>
+ 一样，<code>[runtime.chanrecv](https://draveness.me/golang/tree/runtime.chanrecv)</code>也提供了一个 <code>block</code>参数用于控制这次接收是否阻塞。</p>
+<h3 id="常规流程">常规流程<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#常规流程" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>在默认的情况下，编译器会使用如下的流程处理 <code>select</code> 语句：</p>
+<ol>
+<li>将所有的 <code>case</code> 转换成包含 Channel 以及类型等信息的 <code>[runtime.scase](https://draveness.me/golang/tree/runtime.scase)</code> 结构体；</li>
+<li>调用运行时函数 <code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code> 从多个准备就绪的 Channel 中选择一个可执行的 <code>[runtime.scase](https://draveness.me/golang/tree/runtime.scase)</code> 结构体；</li>
+<li>通过 <code>for</code> 循环生成一组 <code>if</code> 语句，在语句中判断自己是不是被选中的 <code>case</code>；</li>
+</ol>
+<p>一个包含三个 <code>case</code> 的正常 <code>select</code> 语句其实会被展开成如下所示的逻辑，我们可以看到其中处理的三个部分：</p>
+<pre><code>selv := [3]scase{}
+order := [6]uint16
+for i, cas := range cases {
+    c := scase{}
+    c.kind = ...
+    c.elem = ...
+    c.c = ...
+}
+chosen, revcOK := selectgo(selv, order, 3)
+if chosen == 0 {
+    ...
+    break
+}
+if chosen == 1 {
+    ...
+    break
+}
+if chosen == 2 {
+    ...
+    break
+}
+</code></pre>
+<p>runtime.selectGo的运行过程：</p>
+<ol>
+<li>执行一些必要的初始化操作并确定 <code>case</code> 的处理顺序；</li>
+<li>在循环中根据 <code>case</code>的类型做出不同的处理</li>
+</ol>
+<p><strong>初始化</strong></p>
+<p><code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code>函数首先会进行执行必要的初始化操作并决定处理 <code>case</code>的两个顺序 — 轮询顺序 <code>pollOrder</code>和加锁顺序 <code>lockOrder</code>：</p>
+<pre><code>func selectgo(cas0 *scase, order0 *uint16, ncases int) (int, bool) {
+	cas1 := (*[1 &lt;&lt; 16]scase)(unsafe.Pointer(cas0))
+	order1 := (*[1 &lt;&lt; 17]uint16)(unsafe.Pointer(order0))
+
+	ncases := nsends + nrecvs
+	scases := cas1[:ncases:ncases]
+	pollorder := order1[:ncases:ncases]
+	lockorder := order1[ncases:][:ncases:ncases]
+
+	norder := 0
+	for i := range scases {
+		cas := &amp;scases[i]
+	}
+
+	for i := 1; i &lt; ncases; i++ {
+		j := fastrandn(uint32(i + 1))
+		pollorder[norder] = pollorder[j]
+		pollorder[j] = uint16(i)
+		norder++
+	}
+	pollorder = pollorder[:norder]
+	lockorder = lockorder[:norder]
+
+	// 根据 Channel 的地址排序确定加锁顺序
+	...
+	sellock(scases, lockorder)
+	...
+}
+</code></pre>
+<p>轮询顺序 <code>pollOrder</code> 和加锁顺序 <code>lockOrder</code> 分别是通过以下的方式确认的：</p>
+<ul>
+<li>轮询顺序：通过 <code>[runtime.fastrandn](https://draveness.me/golang/tree/runtime.fastrandn)</code> 函数引入随机性；</li>
+<li>加锁顺序：按照 Channel 的地址排序后确定加锁顺序；</li>
+</ul>
+<p>随机的轮询顺序可以避免 Channel 的饥饿问题，保证公平性；而根据 Channel 的地址顺序确定加锁顺序能够避免死锁的发生。这段代码最后调用的 <code>[runtime.sellock](https://draveness.me/golang/tree/runtime.sellock)</code> 会按照之前生成的加锁顺序锁定 <code>select</code> 语句中包含所有的 Channel。</p>
+<p><strong>循环</strong></p>
+<p>当我们为 <code>select</code> 语句锁定了所有 Channel 之后就会进入 <code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code> 函数的主循环，它会分三个阶段查找或者等待某个 Channel 准备就绪：</p>
+<ol>
+<li>查找是否已经存在准备就绪的 Channel，即可以执行收发操作；</li>
+<li>将当前 Goroutine 加入 Channel 对应的收发队列上并等待其他 Goroutine 的唤醒；</li>
+<li>当前 Goroutine 被唤醒之后找到满足条件的 Channel 并进行处理；</li>
+</ol>
+<p><code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code> 函数会根据不同情况通过 <code>goto</code> 语句跳转到函数内部的不同标签执行相应的逻辑，其中包括：</p>
+<ul>
+<li><code>bufrecv</code>：可以从缓冲区读取数据；</li>
+<li><code>bufsend</code>：可以向缓冲区写入数据；</li>
+<li><code>recv</code>：可以从休眠的发送方获取数据；</li>
+<li><code>send</code>：可以向休眠的接收方发送数据；</li>
+<li><code>rclose</code>：可以从关闭的 Channel 读取 EOF；</li>
+<li><code>sclose</code>：向关闭的 Channel 发送数据；</li>
+<li><code>retc</code>：结束调用并返回；</li>
+</ul>
+<p>第一阶段</p>
+<p>会根据pollOrder顺序，循环遍历scase，查找已经准备就绪的scase，在这个阶段，我们会根据 <code>case</code>
+ 的四种类型分别处理：</p>
+<ol>
+<li>当 <code>case</code> 不包含 Channel 时；
+<ul>
+<li>这种 <code>case</code> 会被跳过；</li>
+</ul>
+</li>
+<li>当 <code>case</code> 会从 Channel 中接收数据时；
+<ul>
+<li>如果当前 Channel 的 <code>sendq</code> 上有等待的 Goroutine，就会跳到 <code>recv</code> 标签并从缓冲区读取数据后将等待 Goroutine 中的数据放入到缓冲区中相同的位置；</li>
+<li>如果当前 Channel 的缓冲区不为空，就会跳到 <code>bufrecv</code> 标签处从缓冲区获取数据；</li>
+<li>如果当前 Channel 已经被关闭，就会跳到 <code>rclose</code> 做一些清除的收尾工作；</li>
+</ul>
+</li>
+<li>当 <code>case</code> 会向 Channel 发送数据时；
+<ul>
+<li>如果当前 Channel 已经被关，闭就会直接跳到 <code>sclose</code> 标签，触发 <code>panic</code> 尝试中止程序；</li>
+<li>如果当前 Channel 的 <code>recvq</code> 上有等待的 Goroutine，就会跳到 <code>send</code> 标签向 Channel 发送数据；</li>
+<li>如果当前 Channel 的缓冲区存在空闲位置，就会将待发送的数据存入缓冲区；</li>
+</ul>
+</li>
+<li>当 <code>select</code> 语句中包含 <code>default</code> 时；
+<ul>
+<li>表示前面的所有 <code>case</code> 都没有被执行，这里会解锁所有 Channel 并返回，意味着当前 <code>select</code> 结构中的收发都是非阻塞的；</li>
+</ul>
+</li>
+</ol>
+<p>第二阶段</p>
+<p>按照需要将当前 Goroutine 加入到 Channel 的 <code>sendq</code>或者 <code>recvq</code>队列中。</p>
+<p>根据lockOrder遍历scase，将Goroutine对应的runtime.sudog结构加入队列，这些结构体都会被串成链表附着在 Goroutine 上。在入队之后会调用 <code>[runtime.gopark](https://draveness.me/golang/tree/runtime.gopark)</code>挂起当前 Goroutine 等待调度器的唤醒。</p>
+<p><img src="../../../../RPG从零开始/Program-Language/Go/高级/常用关键字/select/Untitled-1.png" alt="Untitled"/></p>
+<p>第三阶段</p>
+<p>等到 <code>select</code>中的一些 Channel 准备就绪之后，当前 Goroutine 就会被调度器唤醒。这时会继续执行 <code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code>函数的第三部分，从 <code>[runtime.sudog](https://draveness.me/golang/tree/runtime.sudog)</code>中读取数据：</p>
+<pre><code>func selectgo(cas0 *scase, order0 *uint16, ncases int) (int, bool) {
+	...
+	sg = (*sudog)(gp.param)
+	gp.param = nil
+
+	casi = -1
+	cas = nil
+	sglist = gp.waiting
+	for _, casei := range lockorder {
+		k = &amp;scases[casei]
+		if sg == sglist {
+			casi = int(casei)
+			cas = k
+		} else {
+			c = k.c
+			if int(casei) &lt; nsends {
+				c.sendq.dequeueSudoG(sglist)
+			} else {
+				c.recvq.dequeueSudoG(sglist)
+			}
+		}
+		sgnext = sglist.waitlink
+		sglist.waitlink = nil
+		releaseSudog(sglist)
+		sglist = sgnext
+	}
+
+	c = cas.c
+	goto retc
+	...
+}
+</code></pre>
+<p>再次遍历scase，我们会先获取当前 Goroutine 接收到的参数 <code>sudog</code>结构，我们会依次对比所有 <code>case</code>对应的 <code>sudog</code>结构找到被唤醒的 <code>case</code>，获取该 <code>case</code>对应的索引并返回。</p>
+<p>由于当前的 <code>select</code>结构找到了一个 <code>case</code>执行，那么剩下 <code>case</code> 中没有被用到的 <code>sudog</code>就会被忽略并且释放掉。为了不影响 Channel 的正常使用，我们还是需要将这些废弃的 <code>sudog</code>从 Channel 中出队。</p>
+<h2 id="总结">总结<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#总结" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>我们简单总结一下 <code>select</code>结构的执行过程与实现原理，首先在编译期间，Go 语言会对 <code>select</code>
+ 语句进行优化，它会根据 <code>select</code>中 <code>case</code>的不同选择不同的优化路径。</p>
+<p>在编译器已经对 <code>select</code>语句进行优化之后，通常情况下，Go 语言会在运行时执行编译期间展开的 <code>[runtime.selectgo](https://draveness.me/golang/tree/runtime.selectgo)</code>函数，该函数会按照以下的流程执行：</p>
+<ol>
+<li>随机生成一个遍历的轮询顺序 <code>pollOrder</code> 并根据 Channel 地址生成锁定顺序 <code>lockOrder</code>；</li>
+<li>根据 <code>pollOrder</code> 遍历所有的 <code>case</code> 查看是否有可以立刻处理的 Channel；
+<ol>
+<li>如果存在，直接获取 <code>case</code> 对应的索引并返回；</li>
+<li>如果不存在，创建 <code>[runtime.sudog](https://draveness.me/golang/tree/runtime.sudog)</code> 结构体，将当前 Goroutine 加入到所有相关 Channel 的收发队列，并调用 <code>[runtime.gopark](https://draveness.me/golang/tree/runtime.gopark)</code> 挂起当前 Goroutine 等待调度器的唤醒；</li>
+</ol>
+</li>
+<li>当调度器唤醒当前 Goroutine 时，会再次按照 <code>lockOrder</code> 遍历所有的 <code>case</code>，从中查找需要被处理的 <code>[runtime.sudog](https://draveness.me/golang/tree/runtime.sudog)</code> 对应的索引；</li>
+</ol></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-105" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#select" data-for="select">select</a></li><li class="depth-1"><a href="#现象" data-for="现象">现象</a></li><li class="depth-1"><a href="#数据结构" data-for="数据结构">数据结构</a></li><li class="depth-1"><a href="#实现原理" data-for="实现原理">实现原理</a></li><li class="depth-2"><a href="#直接阻塞" data-for="直接阻塞">直接阻塞</a></li><li class="depth-2"><a href="#单一管道" data-for="单一管道">单一管道</a></li><li class="depth-2"><a href="#非阻塞操作" data-for="非阻塞操作">非阻塞操作</a></li><li class="depth-2"><a href="#常规流程" data-for="常规流程">常规流程</a></li><li class="depth-1"><a href="#总结" data-for="总结">总结</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../../../编程语言/Go/高级/常用关键字" class="internal">常用关键字</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2026</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript" data-persist="true">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module" data-persist="true">function E(a,e){if(!a)return;function t(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function n(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}a?.addEventListener("click",t),window.addCleanup(()=>a?.removeEventListener("click",t)),document.addEventListener("keydown",n),window.addCleanup(()=>document.removeEventListener("keydown",n))}function f(a){for(;a.firstChild;)a.removeChild(a.firstChild)}var m=class{constructor(e,t){this.container=e;this.content=t;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}container;content;isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),t=this.onMouseMove.bind(this),n=this.onMouseUp.bind(this),o=this.onTouchStart.bind(this),r=this.onTouchMove.bind(this),i=this.onTouchEnd.bind(this),s=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",t),document.addEventListener("mouseup",n),this.container.addEventListener("touchstart",o,{passive:!1}),document.addEventListener("touchmove",r,{passive:!1}),document.addEventListener("touchend",i),window.addEventListener("resize",s),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",t),()=>document.removeEventListener("mouseup",n),()=>this.container.removeEventListener("touchstart",o),()=>document.removeEventListener("touchmove",r),()=>document.removeEventListener("touchend",i),()=>window.removeEventListener("resize",s))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let t=this.createButton("+",()=>this.zoom(.1)),n=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(n),e.appendChild(o),e.appendChild(t),this.container.appendChild(e)}createButton(e,t){let n=document.createElement("button");return n.textContent=e,n.className="mermaid-control-button",n.addEventListener("click",t),window.addCleanup(()=>n.removeEventListener("click",t)),n}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}onTouchStart(e){if(e.touches.length!==1)return;this.isDragging=!0;let t=e.touches[0];this.startPan={x:t.clientX-this.currentPan.x,y:t.clientY-this.currentPan.y}}onTouchMove(e){if(!this.isDragging||e.touches.length!==1)return;e.preventDefault();let t=e.touches[0];this.currentPan={x:t.clientX-this.startPan.x,y:t.clientY-this.startPan.y},this.updateTransform()}onTouchEnd(){this.isDragging=!1}zoom(e){let t=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),n=this.content.getBoundingClientRect(),o=n.width/2,r=n.height/2,i=t-this.scale;this.currentPan.x-=o*i,this.currentPan.y-=r*i,this.scale=t,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){let t=this.content.querySelector("svg").getBoundingClientRect(),n=t.width/this.scale,o=t.height/this.scale;this.scale=1,this.currentPan={x:(this.container.clientWidth-n)/2,y:(this.container.clientHeight-o)/2},this.updateTransform()}},T=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],y;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;y||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let t=y.default,n=new WeakMap;for(let r of e)n.set(r,r.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let c=n.get(s);c&&(s.innerHTML=c)}let r=T.reduce((s,c)=>(s[c]=window.getComputedStyle(document.documentElement).getPropertyValue(c),s),{}),i=document.documentElement.getAttribute("saved-theme")==="dark";t.initialize({startOnLoad:!1,securityLevel:"loose",theme:i?"dark":"base",themeVariables:{fontFamily:r["--codeFont"],primaryColor:r["--light"],primaryTextColor:r["--darkgray"],primaryBorderColor:r["--tertiary"],lineColor:r["--darkgray"],secondaryColor:r["--secondary"],tertiaryColor:r["--tertiary"],clusterBkg:r["--light"],edgeLabelBackground:r["--highlight"]}}),await t.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let r=0;r<e.length;r++){let v=function(){let g=l.querySelector("#mermaid-space"),h=l.querySelector(".mermaid-content");if(!h)return;f(h);let w=i.querySelector("svg").cloneNode(!0);h.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new m(g,h)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},i=e[r],s=i.parentElement,c=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(c),L=c.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),E(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript" data-persist="true"></script><script src="../../../../postscript.js" type="module" data-persist="true"></script></html>

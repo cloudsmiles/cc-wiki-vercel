@@ -16,7 +16,7 @@ const config: QuartzConfig = {
     enableSearch: true,
     analytics: null,
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "cc-wiki-vercel",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {

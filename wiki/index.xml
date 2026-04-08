@@ -2,67 +2,67 @@
 <rss version="2.0">
     <channel>
       <title>🎮 技术知识库</title>
-      <link>https://quartz.jzhao.xyz</link>
+      <link>https://cc-wiki-vercel</link>
       <description>Last 10 notes on 🎮 技术知识库</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
     <title>Fresnel Effect</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/Fresnel-Effect</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/Fresnel-Effect</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/Fresnel-Effect</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/Fresnel-Effect</guid>
     <description><![CDATA[ 原理：Fresnel Effect，菲涅耳效应，根据观察角度产生不同反射率从而对表面效果产生影响，当你靠近时，会反射更多的光。菲涅耳效应节点通过计算表面法线与视线方向的夹角来近似。这个角度越大，返回值越大。这种效果经常被用来实现边缘照明，这在很多艺术风格中都很常见 边缘光 通过物体表面法向量与view Direction的点积结果，决定是否在边缘，点积结果越小，越靠近边缘 带有方向的边缘光 增加一个normal法向量与方向向量的点积结果，再通过step改变平滑效果，与边缘光相乘 通过方向向量可以改变【阴影部分】，最终会影响边缘光 裁剪 打开apha clip以及设置alpha的值 位置的Y分量... ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>GPU Instancing优化</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/GPU-Instancing%E4%BC%98%E5%8C%96</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/GPU-Instancing%E4%BC%98%E5%8C%96</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/GPU-Instancing%E4%BC%98%E5%8C%96</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/GPU-Instancing%E4%BC%98%E5%8C%96</guid>
     <description><![CDATA[ 基本概念 GPU Instancing允许在一次渲染调用中绘制同一网格(Mesh)的多个副本 每个实例可以有不同的位置、旋转、缩放等属性 这些属性数据会被一次性发送到GPU 工作原理 将相同模型的多个实例的变换矩阵打包成数组 在一次Draw Call中将这些数据发送给GPU GPU为每个实例并行处理渲染 主要优势 性能提升 减少CPU到GPU的通信开销 显著减少Draw Call数量 提高渲染效率 2. ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>HoloGrpahic</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/HoloGrpahic</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/HoloGrpahic</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/HoloGrpahic</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/HoloGrpahic</guid>
     <description><![CDATA[ 1.Change Color Based On View Direction 使用viewDirection，切换到切线空间 使用viewDirection的x和y分量进行计算，最后用于Hue的offset值 2.Foil Pattern 读取图案，对图案进行power加强处理 图案示例 3.叠加效果 根据图案的黑白，与1中的color相乘，只有图案有值 最后与卡片图片叠加颜色 . ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>SRP Batch(Scriptable Render Pipeline Batcher)</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/SRP-Batch(Scriptable-Render-Pipeline-Batcher)</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/SRP-Batch(Scriptable-Render-Pipeline-Batcher)</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/SRP-Batch(Scriptable-Render-Pipeline-Batcher)</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/SRP-Batch(Scriptable-Render-Pipeline-Batcher)</guid>
     <description><![CDATA[ 基本概念 SRP Batcher是Unity为可编程渲染管线(URP/HDRP)提供的一种优化Draw Call的技术，主要用于提高材质属性不同但使用相同shader变体的物体的渲染效率。 核心原理 传统Draw Call过程 每个Draw Call需要： 1. CPU设置材质属性 2. ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>SRP Batcher(Scriptable Render Pipeline Batcher)</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/SRP-Batcher(Scriptable-Render-Pipeline-Batcher)</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/SRP-Batcher(Scriptable-Render-Pipeline-Batcher)</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/SRP-Batcher(Scriptable-Render-Pipeline-Batcher)</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/SRP-Batcher(Scriptable-Render-Pipeline-Batcher)</guid>
     <description><![CDATA[ 基本概念 SRP Batcher是Unity为可编程渲染管线(URP/HDRP)提供的一种优化Draw Call的技术，主要用于提高材质属性不同但使用相同shader变体的物体的渲染效率。 核心原理 传统Draw Call过程 每个Draw Call需要： 1. CPU设置材质属性 2. ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>SRP(Scriptable Render Pipeline)</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/SRP(Scriptable-Render-Pipeline)</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/SRP(Scriptable-Render-Pipeline)</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/SRP(Scriptable-Render-Pipeline)</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/SRP(Scriptable-Render-Pipeline)</guid>
     <description><![CDATA[ srp概述 SRP 是 Unity 的可编程渲染管线系统，它允许开发者： 完全控制渲染流程 自定义渲染策略 优化特定平台的性能 Unity 提供的三种渲染管线 内置渲染管线 (Built-in) - 传统的固定渲染管线 - 功能固定，不可自定义 - 适合简单项目 通用渲染管线 (URP) - 基于 SRP 的轻量级解决方案 - 针对移动平台优化 - 适合大多数项目 高清渲染管线 (HDRP) - 基于 SRP 的高端渲染方案 - 提供高质量图形 - 适合 PC/主机高端项目 SRP 的优势 1. ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>URP的Post Processing</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/URP%E7%9A%84Post-Processing</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/URP%E7%9A%84Post-Processing</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/URP%E7%9A%84Post-Processing</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/URP%E7%9A%84Post-Processing</guid>
     <description><![CDATA[ 需要的组件 Volume Component - 用于控制效果参数 Render Feature - 负责将后处理效果注入渲染管线 Render Pass - 实现具体的渲染逻辑 Shader - 定义后处理的具体视觉效果 代码编写 自定义volume组件 创建CustomPostScreenTint脚本 Volume Component用于在Inspector中暴露和控制后处理效果的参数 using System; using UnityEngine; using UnityEngine.Rendering; using UnityEngine.Rendering.Universal; [S... ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>总目录</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/maps/%E6%80%BB%E7%9B%AE%E5%BD%95</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/maps/%E6%80%BB%E7%9B%AE%E5%BD%95</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/maps/%E6%80%BB%E7%9B%AE%E5%BD%95</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/maps/%E6%80%BB%E7%9B%AE%E5%BD%95</guid>
     <description><![CDATA[ 入门 线性代数 渲染流水线 坐标转换 基础光照 基础纹理 透明效果 opengl纹理 opengl材质 中篇 渲染路径 高级纹理 画面动起来 opengl阴影 opengl点光源阴影 opengl光源类型 模板测试 高级 URP的Post Processing 屏幕后处理效果 十种图像模糊 番外 multi_compile和shader feature区别 GPU Instancing优化 SRP(Scriptable Render Pipeline) SRP Batcher(Scriptable Render Pipeline Batcher) 使用采样器状态 Shader Graph Ef... ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>multi_compile和shader feature区别</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/multi_compile%E5%92%8Cshader-feature%E5%8C%BA%E5%88%AB</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/multi_compile%E5%92%8Cshader-feature%E5%8C%BA%E5%88%AB</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/multi_compile%E5%92%8Cshader-feature%E5%8C%BA%E5%88%AB</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/multi_compile%E5%92%8Cshader-feature%E5%8C%BA%E5%88%AB</guid>
     <description><![CDATA[ 主要区别 变体生成时机 // multi_compile：始终生成所有变体 #pragma multi_compile _ _MAIN_LIGHT_SHADOWS // shader_feature：仅生成使用过的变体 #pragma shader_feature _NORMALMAP 内存使用 // multi_compile：所有变体都会被打包 #pragma multi_compile _FOG_OFF _FOG_LINEAR _FOG_EXP _FOG_EXP2 // 生成4个变体，都会被打包 // shader_feature：只打包用过的变体 #pragma shader_feat... ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item><item>
     <title>opengl光源类型</title>
-    <link>https://quartz.jzhao.xyz/Unity-Shader/opengl%E5%85%89%E6%BA%90%E7%B1%BB%E5%9E%8B</link>
-    <guid>https://quartz.jzhao.xyz/Unity-Shader/opengl%E5%85%89%E6%BA%90%E7%B1%BB%E5%9E%8B</guid>
+    <link>https://cc-wiki-vercel/Unity-Shader/opengl%E5%85%89%E6%BA%90%E7%B1%BB%E5%9E%8B</link>
+    <guid>https://cc-wiki-vercel/Unity-Shader/opengl%E5%85%89%E6%BA%90%E7%B1%BB%E5%9E%8B</guid>
     <description><![CDATA[ 平行光 当一个光源处于很远的地方时，来自光源的每条光线就会近似于互相平行。不论物体和/或者观察者的位置，看起来好像所有的光都来自于同一个方向。当我们使用一个假设光源处于无限远处的模型时，它就被称为定向光，因为它的所有光线都有着相同的方向，它与光源的位置是没有关系的。 定向光非常好的一个例子就是太阳。太阳距离我们并不是无限远，但它已经远到在光照计算中可以把它视为无限远了。所以来自太阳的所有光线将被模拟为平行光线，我们可以在下图看到： 因为所有的光线都是平行的，所以物体与光源的相对位置是不重要的，因为对场景中每一个物体光的方向都是一致的。由于光的位置向量保持一致，场景中每个物体的光照计算将会是类似... ]]></description>
     <pubDate>Wed, 08 Apr 2026 08:07:32 GMT</pubDate>
   </item>

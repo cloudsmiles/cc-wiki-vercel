@@ -1,6 +1,6 @@
 {
   "outputDirectory": "wiki",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!static/|favicon.ico|index.xml|sitemap.xml).*)", "destination": "/index.html" }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "outputDirectory": "wiki",
   "rewrites": [
-    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/static/:match", "destination": "/static/:match" },
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/index.xml", "destination": "/index.xml" },
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/:path*.html", "destination": "/index.html" },
-    { "source": "/:path*", "destination": "/index.html" }
+    { "source": "/:path*/index", "destination": "/:path*/index.html" },
+    { "source": "/:path*", "destination": "/:path*.html" }
   ]
 }

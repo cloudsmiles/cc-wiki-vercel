@@ -1,3 +1,0 @@
-# Web Sever
-
-[[Nginx]]

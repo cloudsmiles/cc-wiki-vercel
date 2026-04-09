@@ -9,30 +9,39 @@ title: 技术知识库
 ## 📚 知识分类
 
 ### 编程语言
-- [Go](/编程语言/Go) - Go 语言学习笔记
-- [Python](/编程语言/Python) - Python 学习笔记
+- [[02_Areas/后端/编程语言/Go|Go]] - Go 语言学习笔记
+- [[02_Areas/后端/编程语言/Python|Python]] - Python 学习笔记
 
 ### 数据结构与算法
-- [算法基础](/数据结构与算法) - 算法与数据结构
-- [LeetCode 刷题](/数据结构与算法/LC题) - 面试算法题解
+- [[02_Areas/计算机基础/数据结构与算法|算法基础]] - 算法与数据结构
+- [[02_Areas/计算机基础/数据结构与算法/LC题|LeetCode 刷题]] - 面试算法题解
 
 ### 数据库
-- [MySQL](/数据库/MySQL) - MySQL 深入学习
-- [Redis](/数据库/Redis) - Redis 实战与原理
-- [Elasticsearch](/数据库/Elasticsearch) - ES 搜索技术
+- [[02_Areas/后端/数据库/MySQL|MySQL]] - MySQL 深入学习
+- [[02_Areas/后端/数据库/Redis|Redis]] - Redis 实战与原理
+- [[02_Areas/后端/数据库/Elasticsearch|Elasticsearch]] - ES 搜索技术
 
 ### 计算机网络
-- [网络协议](/计算机网络) - HTTP、TCP 等协议
+- [[02_Areas/计算机基础/计算机网络|网络协议]] - HTTP、TCP 等协议
 
 ### 操作系统
-- [Linux](/操作系统) - Linux 系统知识
+- [[02_Areas/计算机基础/操作系统|Linux]] - Linux 系统知识
 
 ### 云原生
-- [Docker](/云原生/Docker) - Docker 容器技术
-- [Kubernetes](/云原生/Kubernetes) - K8s 编排技术
+- [[02_Areas/后端/云原生/Docker|Docker]] - Docker 容器技术
+- [[02_Areas/后端/云原生/Kubernetes|Kubernetes]] - K8s 编排技术
 
-### Unity Shader
-- [图形学与Shader](/Unity%20Shader) - 游戏图形学笔记
+### 游戏开发
+- [[02_Areas/游戏开发/图形学/Unity Shader|图形学与Shader]] - 游戏图形学笔记
+
+### 人工智能
+- [[02_Areas/人工智能|人工智能]] - AI 学习笔记
+
+### 架构设计
+- [[02_Areas/架构设计|架构设计]] - 软件架构思考
+
+### 中间件
+- [[02_Areas/后端/中间件|中间件]] - 消息队列等中间件
 
 ## 🔍 功能
 

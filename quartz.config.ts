@@ -17,7 +17,7 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "cc-wiki-vercel",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    ignorePatterns: ["private", "templates", ".obsidian", "00_收集箱", "03_参考资料"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",

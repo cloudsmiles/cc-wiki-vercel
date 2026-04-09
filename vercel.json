@@ -1,6 +1,11 @@
 {
   "outputDirectory": "wiki",
   "rewrites": [
-    { "source": "/((?!static/|favicon.ico|index.xml|sitemap.xml).*)", "destination": "/index.html" }
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/index.xml", "destination": "/index.xml" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/:path*.html", "destination": "/index.html" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }

@@ -1,3 +1,6 @@
 {
-  "outputDirectory": "wiki"
+  "outputDirectory": "wiki",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
